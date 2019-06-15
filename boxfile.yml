@@ -1,0 +1,22 @@
+run.config:
+  engine: python
+  engine.config:
+    runtime: python-3.6
+  
+  fs_watch: true
+
+  dev_packages:
+    - inotify-tools
+  
+  extra_packages:
+    - py36-lxml
+    - nginx
+  
+  extra_steps:
+    - pip install --upgrade pip
+    - pip install --requirement requirements.txt
+    
+web.main:
+  start:
+    nginx: nginx -c /app/etc/nginx.conf
+    flask: gunicorn -c /app/etc/gunicorn.py app:app
